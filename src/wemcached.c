@@ -1,10 +1,18 @@
 #include <stdio.h>
-#include "include/defs.h"
+#include <defs.h>
+#include <server.h>
 
 extern int daemon(int nochdir, int noclose);
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
+    int ret;
     printf("Enter program!!!!\n");
 
-    return daemon(1, 1);
+    ret = daemon(1, 1);
+
+    if (ret == 0) {
+        ret = serv(0, 0);
+    }
+    
+    return ret;
 }

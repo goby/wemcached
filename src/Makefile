@@ -46,7 +46,8 @@ CONFIG_CLEAN_VPATH_FILES =
 PROGRAMS = $(noinst_PROGRAMS)
 wemcached_SOURCES = wemcached.c
 wemcached_OBJECTS = wemcached.$(OBJEXT)
-wemcached_LDADD = $(LDADD)
+wemcached_DEPENDENCIES = $(top_srcdir)/src/daemon.o \
+	$(top_srcdir)/src/echo_server.o
 DEFAULT_INCLUDES = -I. -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -93,12 +94,12 @@ MAKEINFO = ${SHELL} /styx/home/hzlaidonglin/dev/wemcached/missing --run makeinfo
 MKDIR_P = /bin/mkdir -p
 OBJEXT = o
 PACKAGE = wemcached
-PACKAGE_BUGREPORT = BUG-REPORT-ADDRESS
-PACKAGE_NAME = FULL-PACKAGE-NAME
-PACKAGE_STRING = FULL-PACKAGE-NAME VERSION
-PACKAGE_TARNAME = full-package-name
+PACKAGE_BUGREPORT = goby@foxmail.com
+PACKAGE_NAME = wemcached
+PACKAGE_STRING = wemcached 0.1
+PACKAGE_TARNAME = wemcached
 PACKAGE_URL = 
-PACKAGE_VERSION = VERSION
+PACKAGE_VERSION = 0.1
 PATH_SEPARATOR = :
 SET_MAKE = 
 SHELL = /bin/bash
@@ -146,7 +147,8 @@ target_alias =
 top_build_prefix = ../
 top_builddir = ..
 top_srcdir = ..
-wemcached_SORUCES = wemcached.c daemon.c
+wemcached_SORUCES = wemcached.c daemon.c echo_server.c
+wemcached_LDADD = $(top_srcdir)/src/daemon.o $(top_srcdir)/src/echo_server.o
 all: all-am
 
 .SUFFIXES:
@@ -405,7 +407,6 @@ uninstall-am:
 	mostlyclean-generic pdf pdf-am ps ps-am tags uninstall \
 	uninstall-am
 
-# wemcached_LDADD=$(top_srcdir)/src/core/daemon.o
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
