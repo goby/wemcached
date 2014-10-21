@@ -1,4 +1,12 @@
-noinst_PROGRAMS=wemcached
-wemcached_SORUCES=wemcached.c daemon.c echo_server.c
-wemcached_LDADD=$(top_srcdir)/src/daemon.o $(top_srcdir)/src/echo_server.o
+AUTOMAKE_OPTIONS = foreign subdir-objects
+noinst_PROGRAMS	 = wemcached
 
+wemcached_SORUCES = \
+	echo_server.c   \
+	daemon.c        \
+	config.c		\
+	wemcached.c
+
+wemcached_LDADD = echo_server.o daemon.o config.o
+# wemcached_HEADERS = config.h
+LIBS=-levent

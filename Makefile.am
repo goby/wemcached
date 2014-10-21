@@ -1,6 +1,4 @@
-AUTOMAKE_OPTIONS=foreign
+AUTOMAKE_OPTIONS=foreign subdir-objects
 SUBDIRS=src
-# CURRENTPATH=$(shell /bin/pwd)
-INCLUDES=-I$(CURDIR)/src/include
+INCLUDES=-I$(CURDIR)/include
 export INCLUDES
-

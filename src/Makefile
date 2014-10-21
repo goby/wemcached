@@ -46,8 +46,7 @@ CONFIG_CLEAN_VPATH_FILES =
 PROGRAMS = $(noinst_PROGRAMS)
 wemcached_SOURCES = wemcached.c
 wemcached_OBJECTS = wemcached.$(OBJEXT)
-wemcached_DEPENDENCIES = $(top_srcdir)/src/daemon.o \
-	$(top_srcdir)/src/echo_server.o
+wemcached_DEPENDENCIES = echo_server.o daemon.o config.o
 DEFAULT_INCLUDES = -I. -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -88,7 +87,8 @@ INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
 LDFLAGS = 
 LIBOBJS = 
-LIBS = 
+# wemcached_HEADERS = config.h
+LIBS = -levent
 LTLIBOBJS = 
 MAKEINFO = ${SHELL} /styx/home/hzlaidonglin/dev/wemcached/missing --run makeinfo
 MKDIR_P = /bin/mkdir -p
@@ -147,8 +147,14 @@ target_alias =
 top_build_prefix = ../
 top_builddir = ..
 top_srcdir = ..
-wemcached_SORUCES = wemcached.c daemon.c echo_server.c
-wemcached_LDADD = $(top_srcdir)/src/daemon.o $(top_srcdir)/src/echo_server.o
+AUTOMAKE_OPTIONS = foreign subdir-objects
+wemcached_SORUCES = \
+	echo_server.c   \
+	daemon.c        \
+	config.c		\
+	wemcached.c
+
+wemcached_LDADD = echo_server.o daemon.o config.o
 all: all-am
 
 .SUFFIXES:
@@ -162,9 +168,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu src/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign src/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu src/Makefile
+	  $(AUTOMAKE) --foreign src/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -199,18 +205,20 @@ distclean-compile:
 include ./$(DEPDIR)/wemcached.Po
 
 .c.o:
-	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
-	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+	depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
+	$(COMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ $< &&\
+	$(am__mv) $$depbase.Tpo $$depbase.Po
 #	source='$<' object='$@' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(COMPILE) -c $<
+#	$(COMPILE) -c -o $@ $<
 
 .c.obj:
-	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
-	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+	depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.obj$$||'`;\
+	$(COMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ `$(CYGPATH_W) '$<'` &&\
+	$(am__mv) $$depbase.Tpo $$depbase.Po
 #	source='$<' object='$@' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(COMPILE) -c `$(CYGPATH_W) '$<'`
+#	$(COMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \

@@ -8,7 +8,7 @@
 
 #include <server.h>
 
-#define LISTEN_PORT     9999
+#define LISTEN_PORT     50599
 #define LISTEN_BACKLOG  32
 
 void do_accept(evutil_socket_t listener, short event, void *arg);
@@ -26,7 +26,7 @@ int serv() {
     struct sockaddr_in sin;
     sin.sin_family = AF_INET;
     sin.sin_addr.s_addr = 0;
-    sin.sin_port = htos(LISTEN_PORT);
+    sin.sin_port = htons(LISTEN_PORT);
 
     if (bind(listener, (struct sockaddr *)&sin, sizeof(sin)) < 0) {
         perror("bind");

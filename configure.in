@@ -11,7 +11,7 @@ AM_INIT_AUTOMAKE(wemcached,0.1)
 AC_PROG_CC
 
 # Checks for libraries.
-
+AC_CHECK_LIB([event], [event_init])
 # Checks for header files.
 AC_CHECK_HEADERS([fcntl.h stdlib.h unistd.h])
 
@@ -21,6 +21,6 @@ AC_CHECK_HEADERS([fcntl.h stdlib.h unistd.h])
 AC_FUNC_FORK
 AC_CHECK_FUNCS([dup2 socket])
 
-AC_CONFIG_FILES([Makefile
-                 src/Makefile])
+AC_CONFIG_FILES([Makefile 
+                src/Makefile])
 AC_OUTPUT
