@@ -7,6 +7,8 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include <server.h>
+
 
 int64_t total_bytes_read = 0;
 int64_t total_messages_read = 0;
@@ -49,7 +51,7 @@ static void eventcb(struct bufferevent *bev, short events, void *ptr)
   }
 }
 
-int client(int argc, char **argv)
+int client(int port, int block_size, int session_count, int seconds)
 {
   struct event_base *base;
   struct bufferevent **bevs;
@@ -58,16 +60,6 @@ int client(int argc, char **argv)
   struct timeval timeout;
   int i;
 
-  if (argc != 5) {
-    fprintf(stderr, "Usage: client <port> <blocksize> ");
-    fprintf(stderr, "<sessions> <time>\n");
-    return 1;
-  }
-
-  int port = atoi(argv[1]);
-  int block_size = atoi(argv[2]);
-  int session_count = atoi(argv[3]);
-  int seconds = atoi(argv[4]);
   timeout.tv_sec = seconds;
   timeout.tv_usec = 0;
 

@@ -46,7 +46,7 @@ CONFIG_CLEAN_VPATH_FILES =
 PROGRAMS = $(noinst_PROGRAMS)
 wemcached_SOURCES = wemcached.c
 wemcached_OBJECTS = wemcached.$(OBJEXT)
-wemcached_DEPENDENCIES = echo_server.o daemon.o config.o
+wemcached_DEPENDENCIES = echo_server.o daemon.o config.o client.o
 DEFAULT_INCLUDES = -I. -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -152,9 +152,10 @@ wemcached_SORUCES = \
 	echo_server.c   \
 	daemon.c        \
 	config.c		\
+	client.c		\
 	wemcached.c
 
-wemcached_LDADD = echo_server.o daemon.o config.o
+wemcached_LDADD = echo_server.o daemon.o config.o client.o
 all: all-am
 
 .SUFFIXES:

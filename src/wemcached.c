@@ -39,6 +39,9 @@ int main(int argc, char **argv) {
             ret = serv(0, 0);
         }
     }
+    else if (arguments.client) {
+        ret = client(50599, 1024, 10, 1024);
+    }
     
     return ret;
 }
