@@ -1,7 +1,7 @@
 #include <stdio.h>
-#include <defs.h>
-#include <server.h>
+//#include <defs.h>
 #include "arguments.h"
+#include "server.h"
 
 extern int daemon(int nochdir, int noclose);
 

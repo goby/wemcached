@@ -17,4 +17,6 @@ Makefile.in
 .libs/
 *.l[ao]
 *.o
+*.swp
 *~
+build/

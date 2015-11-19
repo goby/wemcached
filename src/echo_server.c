@@ -6,7 +6,7 @@
 #include <event2/event.h>
 #include <event2/bufferevent.h>
 
-#include <server.h>
+#include "server.h"
 
 #define LISTEN_PORT     50599
 #define LISTEN_BACKLOG  32
