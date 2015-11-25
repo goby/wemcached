@@ -5,7 +5,7 @@ CLIBS += -l:libevent.a -lrt
 SRCS += client.c
 SRCS += config.c
 SRCS += daemon.c
-SRCS += echo_server.c
+SRCS += server.c
 SRCS += wemcached.c
 
 OBJECTS = $(SRCS:.c=.o)

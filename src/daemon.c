@@ -4,8 +4,7 @@
 #include <unistd.h>
 #include <stdio.h>
 
-int daemon(nochdir, noclose)
-    int nochdir, noclose;
+int daemon(int nochdir, int noclose)
 {
     int fd;
     switch (fork()) {

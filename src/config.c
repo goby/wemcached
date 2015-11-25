@@ -13,8 +13,9 @@ static struct argp_option options[]  = {
     { "client",  'c', 0, 0, "Run with client mode."},
     { "daemon",  'd', 0, 0, "Run with daemon mode, only valid when program in server mode."},
     { "config",  'f', 0, 0, "Specify the configuration file. The default file is config.ini."}, 
-    { "verbose", 'v', 0, 0, "Run with verbose mode."}, 
-    { "debug",   'D', 0, 0, "Run in DEBUG mode."},
+    { "verbose", 'v', 0, 0, "Set the log level."}, 
+    { "port",    'p', 0, 0, "Set server bind port."}, 
+    { "host",    'l', 0, 0, "Set server bind address."}, 
     { 0 }
 };
 
@@ -31,24 +32,19 @@ static error_t parse_opt(int key, char *arg, struct argp_state *state) {
     struct wem_arguments *arguments = state->input;
     switch(key) {
         case 's':
-            arguments->server = 1;
-            arguments->client = 0;
+            arguments->config.mode = SERVER_MODE;
             break;
         case 'c':
-            arguments->client = 1;
-            arguments->server = 0;
+            arguments->config.mode = CLIENT_MODE;
             break;
         case 'd':
-            arguments->daemon = 1;
+            arguments->config.daemon = 1;
             break;
         case 'f':
             arguments->config_file = arg;
             break;
         case 'v':
-            arguments->verbose = 1;
-            break;
-        case 'D':
-            arguments->debug = 1;
+            arguments->config.log_level = VERBOSE;
             break;
        
         case ARGP_KEY_ARG:

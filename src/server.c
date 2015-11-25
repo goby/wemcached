@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <assert.h>
+#include <arpa/inet.h>
 
 #include <event2/event.h>
 #include <event2/bufferevent.h>
@@ -16,8 +17,9 @@ void read_cb(struct bufferevent *bev, void *arg);
 void error_cb(struct bufferevent *bev, short event, void *arg);
 void write_cb(struct bufferevent *bev, void *arg);
 
-int serv() {
+int serv(const char *ip_addr, int port) {
     int ret;
+    in_addr_t addr;
     evutil_socket_t listener;
     listener = socket(AF_INET, SOCK_STREAM, 0);
     assert(listener > 0);
@@ -25,8 +27,9 @@ int serv() {
 
     struct sockaddr_in sin;
     sin.sin_family = AF_INET;
-    sin.sin_addr.s_addr = 0;
-    sin.sin_port = htons(LISTEN_PORT);
+    sin.sin_port = htons(port);
+    addr = inet_addr(ip_addr);
+    sin.sin_addr.s_addr = addr;
 
     if (bind(listener, (struct sockaddr *)&sin, sizeof(sin)) < 0) {
         perror("bind");
